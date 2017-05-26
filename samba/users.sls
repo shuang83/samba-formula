@@ -3,9 +3,9 @@ include:
   - samba.client
 {% endif %}
 
-{% for login,smb_user in pillar.get('samba_smb_users', {}).items() %}
+{% for login,smb_user in pillar.get('samba_users', {}).items() %}
 {{ login }}:
-  smb_user.present:
+  user.present:
     - fullname: {{ login }}
     - password: {{ smb_user.password }}
 
