@@ -3,13 +3,13 @@ include:
   - samba.client
 {% endif %}
 
-{% for login,user in pillar.get('samba_users', {}).items() %}
+{% for login,smb_user in pillar.get('samba_smb_users', {}).items() %}
 {{ login }}:
-  user.present:
+  smb_user.present:
     - fullname: {{ login }}
-    - password: {{ user.password }}
+    - password: {{ smb_user.password }}
 
 smbpasswd-{{ login }}:
   cmd.run:
-    - name: '(echo {{ user.password }}; echo {{ user.password }}) | smbpasswd -as {{ login }}'
+    - name: '(echo {{ smb_user.password }}; echo {{ smb_user.password }}) | smbpasswd -as {{ login }}'
 {% endfor %}
